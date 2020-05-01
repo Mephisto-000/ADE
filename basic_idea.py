@@ -26,6 +26,11 @@ plt.plot(x,y, xprime, yprime, 'r--', [1.5], [func(1.5)], 'ro')
 plt.show()
 
 
+
+
+
+
+
 #Initial plot to setup the animation
 fig, ax = plt.subplots()
 ax.set_xlim(( 0, 2))
@@ -33,7 +38,7 @@ ax.set_ylim((-4, 4))
 _,_,_, point, line = ax.plot(x,y, xprime, yprime, 'r--', [1.5], [func(1.5)], 'ro', [],[], 'ko', [], [], 'k-')
 text = ax.text(0.5, 1, "")
 ax.text(0.5, 0.65, "derivative 5.25", color="r")
-plt.show()
+
 
 
 def init():
@@ -65,4 +70,4 @@ def animate(i):
 anim = animation.FuncAnimation(fig, animate, init_func=init,
                                frames=160, repeat=True, blit=True)
 
-HTML(anim.to_jshtml())
+plt.show()

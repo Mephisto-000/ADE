@@ -2,7 +2,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import animation, rc
-from IPython.display import HTML
+
+
 
 
 
@@ -69,5 +70,9 @@ def animate(i):
 
 anim = animation.FuncAnimation(fig, animate, init_func=init,
                                frames=160, repeat=True, blit=True)
+
+
+
+anim.save("slope.gif", writer='pillow')
 
 plt.show()

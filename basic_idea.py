@@ -73,6 +73,69 @@ anim = animation.FuncAnimation(fig, animate, init_func=init,
 
 
 
-anim.save("slope.gif", writer='pillow')
+# anim.save("slope.gif", writer='pillow')
 
 plt.show()
+
+
+
+class DualBasic(object):
+    def __init__(self, val, eps):
+        self.val = val
+        self.eps = eps
+
+
+class DualBasicEnhanced(object):
+    def __init__(self, *args):
+        if len(args) == 2:
+            value, eps = args
+        elif len(args) == 1:
+            if isinstance(args[0], (float, int)):
+                value, eps = args[0], 0
+            else:
+                value, eps = args[0].value, args[0].eps
+        self.value = value
+        self.eps = eps
+
+    def __abs__(self):
+        return abs(self.value)
+
+    def __str__(self):
+        return "Dual({}, {})".format(self.value, self.eps)
+
+    def __repr__(self):
+        return str(self)
+
+
+# In code:
+class DualArith(object):
+    def __add__(self, other):
+        other = Dual(other)
+        return Dual(self.value + other.value, self.eps + other.eps)
+
+    def __sub__(self, other):
+        other = Dual(other)
+        return Dual(self.value - other.value, self.eps - other.eps)
+
+    def __mul__(self, other):
+        other = Dual(other)
+        return Dual(self.value * other.value, self.eps * other.value + self.value * other.eps)
+
+class DualDiv(object):
+    def __truediv__(self, other):
+        other = Dual(other)
+        if abs(other.value) == 0:
+            raise ZeroDivisionError
+        else:
+            return Dual(self.value / other.value,
+                        self.eps / other.value - self.value / (other.value) ** 2 * other.eps)
+
+class Dual(DualBasicEnhanced, DualArith, DualDiv):
+            pass
+
+def square(x):
+            return x * x
+
+ans_1 = square(Dual(3, 1))
+
+print(ans_1)
